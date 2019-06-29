@@ -15,6 +15,12 @@ public class MainClass {
                 System.out.println(chars[i][j]);
             }
         }
+        for (int i = 0; i < chars.length; i++) {
+            for (int j = 0; j < chars.length; j++) {
+                System.out.print(chars[i][j]+" ");
+            }
+            System.out.println();
+        }
     }
 
 }
