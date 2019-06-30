@@ -116,8 +116,9 @@ public class GameActionListener implements ActionListener {
                 y = random.nextInt(board.getDIMENSION());
             }
             while (board.isTurnable(x, y));
+            board.updateGameField(x,y);
         }
-        board.updateGameField(x,y);
+
 
     }
 }
