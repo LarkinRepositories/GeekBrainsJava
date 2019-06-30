@@ -27,7 +27,9 @@ class GameBoard extends JFrame {
     public static int getCellSize() {
         return cellSize;
     }
-
+    public char[][] getGameField() {
+        return gameField;
+    }
     private void initField() {
         setBounds(cellSize * DIMENSION, cellSize * DIMENSION, 400, 300);
         setTitle("Крестики нолики");
