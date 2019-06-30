@@ -23,7 +23,8 @@ public class GameActionListener implements ActionListener {
                 board.getGame().showMessage("Ничья");
                 board.emptyField();
             } else {
-                updateBySillyAIData(board);
+                //updateBySillyAIData(board);
+                updateByAIData(board);
             }
         } else {
             board.getGame().showMessage("Некорректный ход!");
@@ -65,7 +66,8 @@ public class GameActionListener implements ActionListener {
         }
     }
     private void updateByAIData(GameBoard board) {
-        int x, y;
+        int x = -1;
+        int y = -1;
         Random random = new Random();
         int scoreY = -1;
         int scoreX = -1;
@@ -116,7 +118,16 @@ public class GameActionListener implements ActionListener {
                 y = random.nextInt(board.getDIMENSION());
             }
             while (board.isTurnable(x, y));
-            board.updateGameField(x,y);
+        }
+        board.updateGameField(x,y);
+        int cellIndex = GameBoard.getDIMENSION() * x + y;
+        board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
+        if (board.checkWin()) {
+            button.getBoard().getGame().showMessage("Выиграл компьютер");
+            board.emptyField();
+        }
+        else {
+            board.getGame().passTurn();
         }
 
 
