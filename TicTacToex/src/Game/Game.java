@@ -5,6 +5,11 @@ import javax.swing.*;
 public class Game {
     private GameBoard board;
     private GamePlayer[] gamePlayers = new GamePlayer[2];
+
+    public int getPlayersTurn() {
+        return playersTurn;
+    }
+
     private int playersTurn = 0; //индекс текущего игрока
 
     public Game() {

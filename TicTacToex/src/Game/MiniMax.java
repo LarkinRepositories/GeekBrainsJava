@@ -19,7 +19,8 @@ public class MiniMax {
         if (currentPly++ == maxPly || gameBoard.checkWin()) {
             return score(player, gameBoard);
         }
-        if (gameBoard.getGame().getCurrentPlayer() == player) {
+        //if (gameBoard.getGame().getCurrentPlayer() == player) {
+        if (gameBoard.getGame().getPlayersTurn() == 1) {
             return getMax(player, gameBoard, currentPly);
         }
         else {

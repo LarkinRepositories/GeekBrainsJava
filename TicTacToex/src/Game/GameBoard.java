@@ -1,18 +1,13 @@
 package Game;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-class GameBoard extends JFrame {
+class GameBoard  {
 
     private static final int DIMENSION = 3;
     private static int cellSize = 150;
     private static final char NULLSYMBOL = '\u0000';
     private char[][] gameField;
-    private GameButton[] gameButtons;
     private Game game; //ссылка на игру
     private ArrayList<Integer> availableMoves;
 
@@ -20,7 +15,8 @@ class GameBoard extends JFrame {
     GameBoard(Game currentGame) {
         this.availableMoves = new ArrayList<>();
         this.game = currentGame;
-        initField();
+        initialize();
+        emptyField();
 
     }
 
@@ -34,49 +30,21 @@ class GameBoard extends JFrame {
     public char[][] getGameField() {
         return gameField;
     }
-    public void initField() {
-        setBounds(cellSize * DIMENSION, cellSize * DIMENSION, 400, 300);
-        setTitle("Крестики нолики");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        setLayout(new BorderLayout());
-        JPanel controlPanel = new JPanel();
-        JButton newGameButton = new JButton("Новая игра");
-
-        newGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                emptyField(); //метод очистки поля
-            }
-        });
-        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
-        controlPanel.add(newGameButton);
-        controlPanel.setSize(cellSize * DIMENSION, 150);
-
-        JPanel gameFieldPanel = new JPanel(); //панель самой игры
-        gameFieldPanel.setLayout(new GridLayout(DIMENSION, DIMENSION));
-        gameFieldPanel.setSize(cellSize * DIMENSION, cellSize * DIMENSION);
-
+    public void initialize() {
         gameField = new char[DIMENSION][DIMENSION];
-        gameButtons = new GameButton[DIMENSION * DIMENSION];
-
         for (int i = 0; i < (DIMENSION * DIMENSION); i++) {
-            GameButton fieldButton = new GameButton(i, this);
-            gameFieldPanel.add(fieldButton);
-            gameButtons[i] = fieldButton;
             availableMoves.add(i);
+            int x = i / GameBoard.DIMENSION;
+            int y = i % GameBoard.DIMENSION;
+            gameField[y][x] = NULLSYMBOL;
         }
-        getContentPane().add(controlPanel, BorderLayout.NORTH);
-        getContentPane().add(gameFieldPanel, BorderLayout.CENTER);
-        setVisible(true);
+
     }
 
     public void emptyField() {
         for (int i = 0; i < DIMENSION * DIMENSION; i++) {
-            gameButtons[i].setText("");
             int x = i / GameBoard.DIMENSION;
             int y = i % GameBoard.DIMENSION;
-
             gameField[y][x] = NULLSYMBOL;
         }
         availableMoves.clear();
