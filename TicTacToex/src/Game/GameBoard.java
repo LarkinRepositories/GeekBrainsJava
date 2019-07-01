@@ -116,9 +116,7 @@ class GameBoard  {
         return game;
     }
 
-    public GameButton getButton(int buttonIndex) {
-        return gameButtons[buttonIndex];
-    }
+
 
     public ArrayList<Integer> getAvailableMoves() {
         return availableMoves;
