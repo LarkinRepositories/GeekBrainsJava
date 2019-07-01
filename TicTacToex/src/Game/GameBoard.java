@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 class GameBoard extends JFrame {
 
@@ -13,10 +14,14 @@ class GameBoard extends JFrame {
     private char[][] gameField;
     private GameButton[] gameButtons;
     private Game game; //ссылка на игру
+    private ArrayList<Integer> availableMoves;
+
 
     GameBoard(Game currentGame) {
+        this.availableMoves = new ArrayList<>();
         this.game = currentGame;
         initField();
+
 
     }
 
@@ -60,6 +65,7 @@ class GameBoard extends JFrame {
             GameButton fieldButton = new GameButton(i, this);
             gameFieldPanel.add(fieldButton);
             gameButtons[i] = fieldButton;
+            availableMoves.add(i);
         }
         getContentPane().add(controlPanel, BorderLayout.NORTH);
         getContentPane().add(gameFieldPanel, BorderLayout.CENTER);
@@ -74,6 +80,7 @@ class GameBoard extends JFrame {
 
             gameField[y][x] = NULLSYMBOL;
         }
+        availableMoves.clear();
     }
 
     public boolean isTurnable(int x, int y) {
@@ -82,6 +89,7 @@ class GameBoard extends JFrame {
 
     public void updateGameField(int x, int y) {
         gameField[y][x] = game.getCurrentPlayer().getPlayerSign();
+        availableMoves.remove(Integer.valueOf(y * DIMENSION +x));
 
     }
 
@@ -144,4 +152,9 @@ class GameBoard extends JFrame {
     public GameButton getButton(int buttonIndex) {
         return gameButtons[buttonIndex];
     }
+
+    public ArrayList<Integer> getAvailableMoves() {
+        return availableMoves;
+    }
+
 }

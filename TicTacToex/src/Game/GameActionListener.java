@@ -23,8 +23,9 @@ public class GameActionListener implements ActionListener {
                 board.getGame().showMessage("Ничья");
                 board.emptyField();
             } else {
-                //updateBySillyAIData(board);
-                updateByAIData(board);
+                updateBySillyAIData(board);
+                //updateByAIData(board);
+                //TODO: вызвать MiniMax
             }
         } else {
             board.getGame().showMessage("Некорректный ход!");
@@ -114,22 +115,21 @@ public class GameActionListener implements ActionListener {
         }
         if (x == -1) {
             do {
-                x = random.nextInt(board.getDIMENSION());
-                y = random.nextInt(board.getDIMENSION());
+                x = random.nextInt(GameBoard.getDIMENSION());
+                y = random.nextInt(GameBoard.getDIMENSION());
             }
             while (board.isTurnable(x, y));
         }
-        board.updateGameField(x,y);
+        board.updateGameField(x, y);
         int cellIndex = GameBoard.getDIMENSION() * x + y;
         board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
         if (board.checkWin()) {
             button.getBoard().getGame().showMessage("Выиграл компьютер");
             board.emptyField();
-        }
-        else {
+        } else {
             board.getGame().passTurn();
         }
-
+   // }
 
     }
 }
