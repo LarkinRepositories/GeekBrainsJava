@@ -22,7 +22,6 @@ class GameBoard extends JFrame {
         this.game = currentGame;
         initField();
 
-
     }
 
     public static int getDIMENSION() {
@@ -35,7 +34,7 @@ class GameBoard extends JFrame {
     public char[][] getGameField() {
         return gameField;
     }
-    private void initField() {
+    public void initField() {
         setBounds(cellSize * DIMENSION, cellSize * DIMENSION, 400, 300);
         setTitle("Крестики нолики");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -155,6 +154,24 @@ class GameBoard extends JFrame {
 
     public ArrayList<Integer> getAvailableMoves() {
         return availableMoves;
+    }
+
+    public void setGameField(char[][] gameField) {
+        this.gameField = gameField;
+        gameField.clone();
+    }
+
+    public GameBoard deepCopy() {
+        GameBoard board = new GameBoard(this.game);
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField.length; j++) {
+                board.gameField[i][j] = gameField[i][j];
+            }
+        }
+        board.availableMoves = new ArrayList<>();
+        board.availableMoves.addAll(this.availableMoves);
+
+        return board;
     }
 
 }

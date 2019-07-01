@@ -23,9 +23,9 @@ public class GameActionListener implements ActionListener {
                 board.getGame().showMessage("Ничья");
                 board.emptyField();
             } else {
-                updateBySillyAIData(board);
+                //updateBySillyAIData(board);
                 //updateByAIData(board);
-                //TODO: вызвать MiniMax
+                MiniMax.run(board, Double.POSITIVE_INFINITY);
             }
         } else {
             board.getGame().showMessage("Некорректный ход!");

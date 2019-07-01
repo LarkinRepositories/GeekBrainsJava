@@ -15,6 +15,7 @@ public class Game {
         gamePlayers[0] = new GamePlayer(true, 'X');
         gamePlayers[1] = new GamePlayer(false,'O');
     }
+
     public void passTurn() {
         if (playersTurn == 0) playersTurn = 1;
         else playersTurn = 0;
