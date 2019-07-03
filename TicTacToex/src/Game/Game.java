@@ -9,7 +9,6 @@ public class Game {
 
     public Game() {
         this.board = new GameBoard(this);
-
     }
     public void initGame() {
         gamePlayers[0] = new GamePlayer(true, 'X');

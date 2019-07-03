@@ -7,6 +7,9 @@ public class GameActionListener implements ActionListener {
     private int row;
     private int cell;
     private GameButton button;
+    Random random = new Random();
+    private static boolean sillyAI = false;
+
 
     public GameActionListener(int row, int cell, GameButton gButton) {
         this.row = row;
@@ -37,28 +40,7 @@ public class GameActionListener implements ActionListener {
         //обновить содержимое кнопки
         button.setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
         if (board.checkWin()) {
-            button.getBoard().getGame().showMessage("Вы выиграли!");
-            board.emptyField();
-        }
-        else {
-            board.getGame().passTurn();
-        }
-    }
-    private void updateBySillyAIData(GameBoard board) {
-        int x,y;
-        Random rnd = new Random();
-        do {
-            x = rnd.nextInt(GameBoard.getDIMENSION());
-            y = rnd.nextInt(GameBoard.getDIMENSION());
-        }
-        while(!board.isTurnable(x,y));
-        //обновить матрицу игры
-        board.updateGameField(x,y);
-        //обновить содержимое кнопки
-        int cellIndex = GameBoard.getDIMENSION() * x + y;
-        board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
-        if (board.checkWin()) {
-            button.getBoard().getGame().showMessage("Выиграл компьютер");
+            board.getGame().showMessage("Вы выиграли!");
             board.emptyField();
         }
         else {
@@ -68,68 +50,77 @@ public class GameActionListener implements ActionListener {
     private void updateByAIData(GameBoard board) {
         int x = -1;
         int y = -1;
-        Random random = new Random();
-        int scoreY = -1;
-        int scoreX = -1;
-        int highScore = 0;
-        for (int i = 0; i < board.getGameField().length; i++) {
-            for (int j = 0; j < board.getGameField().length; j++) {
-                int cellScore = 0;
-                if (board.isTurnable(i, j)) {
-                    if (i - 1 >= 0 && board.getGameField()[i - 1][j] == board.getGame().getCurrentPlayer().getPlayerSign()) { //смотрим вверх, ищем свой символ
-                        cellScore++;
-                    }
-                    if (i - 1 >= 0 && j - 1 >= 0 && board.getGameField()[i - 1][j - 1] == board.getGame().getCurrentPlayer().getPlayerSign()) { //лево вверх
-                        cellScore++;
-                    }
-                    if (i - 1 >= 0 && board.getGameField()[i - 1][j] == board.getGame().getCurrentPlayer().getPlayerSign()) { //право вверх
-                        cellScore++;
-                    }
-                    if (j - 1 >= 0 && board.getGameField()[i][j - 1] == board.getGame().getCurrentPlayer().getPlayerSign()) { //право
-                        cellScore++;
-                    }
-                    if (i + 1 < board.getGameField().length && j + 1 < board.getGameField().length && board.getGameField()[i + 1][j + 1] == board.getGame().getCurrentPlayer().getPlayerSign()) { // низ право
-                        cellScore++;
-                    }
-                    if (i + 1 < board.getGameField().length && board.getGameField()[i + 1][j] == board.getGame().getCurrentPlayer().getPlayerSign()) { //вниз
-                        cellScore++;
-                    }
-                    if (i + 1 < board.getGameField().length && j - 1 >= 0 && board.getGameField()[i + 1][j - 1] == board.getGame().getCurrentPlayer().getPlayerSign()) { //влево
-                        cellScore++;
-                    }
-                    if (j - 1 >= 0 && board.getGameField()[i][j - 1] == board.getGame().getCurrentPlayer().getPlayerSign()) {
-                        cellScore++;
-                    }
-                }
-                if (cellScore > highScore) {
-                    highScore = cellScore;
-                    scoreX = j;
-                    scoreY = i;
-                }
-            }
-        }
-        if (scoreX != -1) {
-            x = scoreX;
-            y = scoreY;
-        }
-        if (x == -1) {
+        if (sillyAI) {
             do {
                 x = random.nextInt(board.getDIMENSION());
                 y = random.nextInt(board.getDIMENSION());
             }
             while (board.isTurnable(x, y));
+            System.out.println("Компьютер выбрал ячейку " + (y + 1) + " " + (x + 1));
+            board.updateGameField(x,y);
+            int cellIndex = GameBoard.getDIMENSION() * x + y;
+            board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
+        } else {
+            int scoreY = -1;
+            int scoreX = -1;
+            int highScore = 0;
+            for (int i = 0; i < board.getGameField().length; i++) {
+                for (int j = 0; j < board.getGameField().length; j++) {
+                    int cellScore = 0;
+                    if (board.getGameField()[i][j] == board.getNULLSYMBOL()) {
+                        if (i - 1 >= 0 && board.getGameField()[i - 1][j] == 'O') { //смотрим вверх, ищем свой символ
+                            cellScore++;
+                        }
+                        if (i - 1 >= 0 && j - 1 >= 0 && board.getGameField()[i - 1][j - 1] == 'O') { //лево вверх
+                            cellScore++;
+                        }
+                        if (i - 1 >= 0 && board.getGameField()[i - 1][j] == 'O') { //право вверх
+                            cellScore++;
+                        }
+                        if (j - 1 >= 0 && board.getGameField()[i][j - 1] == 'O') { //право
+                            cellScore++;
+                        }
+                        if (i + 1 < board.getGameField().length && j + 1 < board.getGameField().length && board.getGameField()[i + 1][j + 1] == 'O') { // низ право
+                            cellScore++;
+                        }
+                        if (i + 1 < board.getGameField().length && board.getGameField()[i + 1][j] == 'O') { //вниз
+                            cellScore++;
+                        }
+                        if (i + 1 < board.getGameField().length && j - 1 >= 0 && board.getGameField()[i + 1][j - 1] == 'O') { //влево
+                            cellScore++;
+                        }
+                        if (j - 1 >= 0 && board.getGameField()[i][j - 1] == 'O') {
+                            cellScore++;
+                        }
+                    }
+                    if (cellScore > highScore) {
+                        highScore = cellScore;
+                        scoreX = j;
+                        scoreY = i;
+                    }
+                }
+            }
+            if(scoreX != -1) {
+                x = scoreX;
+                y = scoreY;
+            }
+            if (x == -1) {
+                do {
+                    x = random.nextInt(board.getDIMENSION());
+                    y = random.nextInt(board.getDIMENSION());
+                }
+                while (board.isTurnable(x, y));
+            }
+            board.updateGameField(x,y);
+            int cellIndex = GameBoard.getDIMENSION() * x + y;
+            board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
         }
-        board.updateGameField(x,y);
-        int cellIndex = GameBoard.getDIMENSION() * x + y;
-        board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
         if (board.checkWin()) {
-            button.getBoard().getGame().showMessage("Выиграл компьютер");
+            board.getGame().showMessage("Вы выиграли!");
             board.emptyField();
         }
         else {
             board.getGame().passTurn();
         }
-
-
     }
 }
