@@ -15,6 +15,6 @@ public class GamePlayer {
         this.isRealPlayer = isRealPlayer;
         this.playerSign = playerSign;
     }
-
+    ///
 
 }
