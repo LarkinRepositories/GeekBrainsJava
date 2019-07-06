@@ -57,7 +57,7 @@ public class GameActionListener implements ActionListener {
         //обновить содержимое кнопки
         int cellIndex = GameBoard.getDIMENSION() * x + y;
         board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
-        if (board.checkWin()) {
+            if (board.checkWin()) {
             button.getBoard().getGame().showMessage("Выиграл компьютер");
             board.emptyField();
         }
@@ -112,7 +112,7 @@ public class GameActionListener implements ActionListener {
             x = scoreX;
             y = scoreY;
         }
-        if (x == -1) {
+        if (scoreX == -1) {
             do {
                 x = random.nextInt(board.getDIMENSION());
                 y = random.nextInt(board.getDIMENSION());
