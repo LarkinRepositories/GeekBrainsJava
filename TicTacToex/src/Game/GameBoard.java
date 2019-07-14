@@ -9,6 +9,11 @@ class GameBoard extends JFrame {
 
     private static final int DIMENSION = 3;
     private static int cellSize = 150;
+
+    public static char getNULLSYMBOL() {
+        return NULLSYMBOL;
+    }
+
     private static final char NULLSYMBOL = '\u0000';
     private char[][] gameField;
     private GameButton[] gameButtons;
