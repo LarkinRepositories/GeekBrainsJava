@@ -6,9 +6,14 @@ public class GameButton extends JButton {
     private int buttonIndex;
     private GameBoard board;
 
-    public GameButton(int gameButtonIndex, GameBoard board) {
+    public int getButtonIndex() {
+        return buttonIndex;
+    }
+
+
+    public GameButton(int gameButtonIndex, GameBoard currentGameBoard) {
         buttonIndex = gameButtonIndex;
-        this.board = board;
+        board = currentGameBoard;
 
         int rowNum = buttonIndex/ GameBoard.getDIMENSION();
         int cellNum = buttonIndex % GameBoard.getDIMENSION();

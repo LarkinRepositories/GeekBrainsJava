@@ -7,8 +7,13 @@ public class Game {
     private GamePlayer[] gamePlayers = new GamePlayer[2];
     private int playersTurn = 0; //индекс текущего игрока
 
+    public void setPlayersTurn(int playersTurn) {
+        this.playersTurn = playersTurn;
+    }
+
     public Game() {
         this.board = new GameBoard(this);
+
     }
     public void initGame() {
         gamePlayers[0] = new GamePlayer(true, 'X');

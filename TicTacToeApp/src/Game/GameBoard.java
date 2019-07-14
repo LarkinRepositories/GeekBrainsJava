@@ -5,24 +5,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class GameBoard extends JFrame {
-
+public class GameBoard extends JFrame {
     private static final int DIMENSION = 3;
     private static int cellSize = 150;
-
-    public static char getNULLSYMBOL() {
-        return NULLSYMBOL;
-    }
-
-    private static final char NULLSYMBOL = '\u0000';
+    static final char NULLSYMBOL = '\u0000';
     private char[][] gameField;
     private GameButton[] gameButtons;
-    private Game game; //ссылка на игру
+    private Game game;
 
-    GameBoard(Game currentGame) {
-        this.game = currentGame;
-        initField();
-
+    public char[][] getGameField() {
+        return gameField;
     }
 
     public static int getDIMENSION() {
@@ -32,8 +24,11 @@ class GameBoard extends JFrame {
     public static int getCellSize() {
         return cellSize;
     }
-    public char[][] getGameField() {
-        return gameField;
+
+    GameBoard(Game currentGame) {
+        this.game = currentGame;
+        initField();
+
     }
     private void initField() {
         setBounds(cellSize * DIMENSION, cellSize * DIMENSION, 400, 300);
@@ -70,7 +65,6 @@ class GameBoard extends JFrame {
         getContentPane().add(gameFieldPanel, BorderLayout.CENTER);
         setVisible(true);
     }
-
     public void emptyField() {
         for (int i = 0; i < DIMENSION * DIMENSION; i++) {
             gameButtons[i].setText("");
@@ -78,6 +72,7 @@ class GameBoard extends JFrame {
             int y = i % GameBoard.DIMENSION;
 
             gameField[y][x] = NULLSYMBOL;
+            game.setPlayersTurn(0);
         }
     }
 
