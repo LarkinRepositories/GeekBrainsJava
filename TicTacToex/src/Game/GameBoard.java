@@ -119,7 +119,7 @@ class GameBoard extends JFrame {
         }
         return false;
     }
-
+     ///
     private boolean checkWinDiagonals(char playerSymbol) {
         int count = 0;
         for (int i = 0; i < gameField.length; i++) { //проверка по диагонали
